@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 360" fill="none">
+  <defs>
+    <pattern id="grain" width="6" height="6" patternUnits="userSpaceOnUse">
+      <path d="M1 1h1m3 3h1" stroke="#f7dfaa" opacity=".21" stroke-width=".5"/>
+    </pattern>
+  </defs>
+  <path d="M0 0h720v360H0z" fill="url(#grain)"/>
+  <g transform="translate(509 181)" stroke="#dfbb72">
+    <circle r="151" opacity=".42"/>
+    <circle r="139" opacity=".23" stroke-dasharray="1 5"/>
+    <circle r="116" opacity=".25"/>
+    <path d="M0-151 143-47 88 122H-88L-143-47Z M0-151 88 122-143-47h286L-88 122Z" opacity=".19"/>
+    <path d="M-179 0h358M0-173v346" opacity=".18"/>
+    <g stroke-width="1.1">
+      <circle cy="-151" r="10" fill="#e7d7aa"/>
+      <circle cx="143" cy="-47" r="10" fill="#75a9ba"/>
+      <circle cx="88" cy="122" r="10" fill="#756882"/>
+      <circle cx="-88" cy="122" r="10" fill="#c1785f"/>
+      <circle cx="-143" cy="-47" r="10" fill="#7c9b76"/>
+    </g>
+  </g>
+  <g stroke="#d7b87d" transform="translate(520 185)">
+    <g transform="rotate(-21)"><rect x="-54" y="-73" width="108" height="146" rx="9" fill="#27473a" stroke-opacity=".77"/><rect x="-46" y="-64" width="92" height="128" rx="4" opacity=".36"/></g>
+    <g transform="rotate(12)"><rect x="-49" y="-77" width="104" height="145" rx="8" fill="#214337"/><rect x="-41" y="-69" width="88" height="128" rx="4" opacity=".47"/><path d="M-32 29h70M-32 39h47M-32 48h35" opacity=".54"/><path d="M3-52 14-24 38-13 14-2 3 22-8-2-32-13-8-24Z" fill="#d1b46e" fill-opacity=".13"/><circle cx="3" cy="-13" r="10" opacity=".65"/><circle cx="3" cy="-13" r="3" fill="#d7b87d"/></g>
+  </g>
+</svg>

@@ -1,0 +1,11 @@
+**/.endstep-data/
+**/node_modules/
+/output/
+.env
+.env.*
+*.log
+*.esreplay
+*.jsonl
+*.exe
+*.zip
+*.7z

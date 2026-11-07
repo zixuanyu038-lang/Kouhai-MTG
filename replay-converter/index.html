@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>口嗨万智牌</title><link rel="icon" type="image/svg+xml" href="/mark.svg"><link rel="stylesheet" href="/style.css"><script src="/app.js" defer></script>
+</head>
+<body>
+  <main>
+    <header><img src="/mark.svg" width="64" height="64" alt=""><div><p class="brand">ENDSTEP · FORGE</p><h1>口嗨万智牌</h1><p>从回放或文字描述建立局面，在 Forge 推演下一步。</p></div></header>
+    <details id="connection" class="connection">
+      <summary>模型连接 <span id="provider-label">Codex</span></summary>
+      <div class="connection-body">
+        <label>连接方式<select id="provider"><option value="codex">本机 Codex</option><option value="api">OpenAI 兼容 API</option></select></label>
+        <p id="codex-hint" class="note">使用本机 Codex 的登录与模型配置。</p>
+        <div id="api-settings" hidden>
+          <label>API 地址<input id="base-url" value="https://api.openai.com/v1" type="url" spellcheck="false"></label>
+          <div class="split"><label>模型 ID<input id="model" spellcheck="false" placeholder="服务商给出的模型名称"></label><label>API 密钥<input id="key" type="password" autocomplete="off" placeholder="仅本次窗口使用"></label></div>
+          <p class="note">请使用擅长按 JSON 输出的模型。接口能连通时，也请核对模型理解的动作、目标和时机。</p>
+        </div>
+        <button type="button" class="quiet" id="connect">检查连接</button><p id="connection-status" class="note" role="status"></p>
+      </div>
+    </details>
+    <section>
+      <div class="step-title"><span>01</span><h2>选起点</h2></div>
+      <fieldset class="source-switch"><legend>起点来源</legend><label><input type="radio" name="source" id="from-replay" checked> 导入回放</label><label><input type="radio" name="source" id="from-description"> 从描述创建</label></fieldset>
+      <div id="replay-inputs">
+        <label for="file">原始回放</label>
+        <input id="file" type="file" accept=".esreplay,.jsonl,application/gzip,application/octet-stream">
+        <label for="node">从哪一步之前开始</label><select id="node" disabled><option>先导入回放</option></select>
+        <p id="board" class="note"></p>
+      </div>
+      <div id="description-inputs" hidden>
+        <label for="description">描述当前局面</label>
+        <textarea id="description" rows="6" maxlength="8000" aria-describedby="description-help" placeholder="第 3 回合，己方第一主阶段，我有优先权。对手 3 血，有 2 张未知手牌。我有一张未横置的 Mountain，手里有 Lightning Bolt。对手坟场有 Ponder，双方放逐区为空。"></textarea>
+        <div id="description-help" class="scene-guide">
+          <p><b>时机</b> · 谁的第几回合、哪个阶段、堆叠上的法术和目标。请选己方有优先权的一刻。</p>
+          <p><b>公开区域</b> · 双方生命、战场、坟场、放逐区。请注明横置、召唤失调和相关指示物。</p>
+          <p><b>隐藏区域</b> · 写出知道的手牌与库顶，手牌总数可以包含未知牌。知道牌库还剩多少张也可以写上。</p>
+          <p><b>本回合历史</b> · 若会影响打法，写明已经下地、抓牌、施放过哪些牌，以及池中法术力。</p>
+        </div>
+      </div>
+    </section>
+    <section>
+      <div class="step-title"><span>02</span><h2>核对双方牌表</h2></div>
+      <div class="split">
+        <div><label>己方<select id="own-mode"><option value="generated" hidden>生成练习牌表</option><option value="local" selected>本地检索</option><option value="web">Codex 联网检索</option><option value="upload">上传牌表</option></select></label><input type="file" id="own-file" accept=".txt,.dec,text/plain" aria-label="上传己方牌表" hidden></div>
+        <div><label>对手<select id="opponent-mode"><option value="generated" hidden>生成练习牌表</option><option value="local" selected>本地检索</option><option value="web">Codex 联网检索</option><option value="upload">上传牌表</option></select></label><input type="file" id="opponent-file" accept=".txt,.dec,text/plain" aria-label="上传对手牌表" hidden></div>
+      </div>
+      <p class="note" id="deck-hint">回放中已有完整牌表时优先使用。上传格式如 <code>4 Brainstorm</code>，备牌写在 <code>Sideboard</code> 下。</p>
+      <p class="note" id="scene-deck-hint" hidden>只有描述也可以。软件会生成练习牌表，再从中补齐未知手牌和牌库。你也可以换成检索或上传的牌表。</p>
+      <button id="check-decks" type="button" class="quiet" disabled>核对牌表</button>
+      <button id="prepare-scene" type="button" class="primary" hidden>整理并核对局面</button>
+      <p id="scene-status" class="note" role="status" hidden></p>
+      <div id="scene-preview" class="scene-preview" hidden></div>
+      <div id="decks"></div>
+    </section>
+    <section id="timeline" hidden>
+      <div class="step-title"><span>03</span><h2>编辑战报时间轴</h2></div>
+      <p class="note">每个节点继承前一个已校验的局面，只写这一步的动作或预期结果。修改前文后，后续描述会保留并等待重新校验。</p>
+      <div class="actions timeline-actions">
+        <button id="add-node" type="button">新建节点</button><button id="add-turn" type="button">新建回合</button>
+        <button id="check-timeline" type="button">检查战报</button><button id="export-timeline" class="primary" type="button">导出战报</button>
+      </div>
+      <ol id="timeline-list" class="timeline-list" aria-label="回合和节点"></ol>
+      <div id="timeline-editor" hidden>
+        <label for="node-description" id="node-description-label">节点描述</label>
+        <textarea id="node-description" rows="4" maxlength="2400" placeholder="例如：己方起动 Wasteland，目标是对手的 Hedge Maze。"></textarea>
+        <label id="turn-fill-label" hidden><input id="turn-fill" type="checkbox"> 允许 Forge 补演到下一回合</label>
+        <button id="delete-node" type="button">移除此节点</button>
+      </div>
+      <div id="node-preview" class="scene-preview" hidden></div>
+      <p id="timeline-status" class="note" role="status"></p>
+    </section>
+    <section>
+      <div class="step-title"><span id="play-step">03</span><h2>写下你的打法</h2></div>
+      <p id="branch-start-note" class="note" hidden></p>
+      <label for="focus">你希望怎样打</label>
+      <textarea id="focus" rows="4" maxlength="4000" placeholder="例如：用 Swords to Plowshares 放逐 Acererak the Archlich，保留 Consign to Memory。"></textarea>
+      <details class="extra" id="replay-extra">
+        <summary>补充场面与未知信息</summary>
+        <label>场面补充<textarea id="context" rows="2" maxlength="3000" placeholder="例如：我想在回手异能结算前动手。回放记录用于核对实际局面。"></textarea></label>
+        <label>假设对手持有<textarea id="hand" rows="2" maxlength="6000" placeholder="每行一个英文牌名，留空由程序按牌表填补。"></textarea></label>
+        <p class="note">指定牌必须能从对手牌表中取得。其余未知手牌和牌库顺序会固定为一个假设。</p>
+      </details>
+    </section>
+    <footer>
+      <div class="actions"><button id="generate" type="button" class="primary" disabled>开始推演</button><button id="cancel" type="button" class="quiet" hidden>取消</button><a id="download" class="primary" download hidden>下载 .esreplay</a></div>
+      <p id="status" role="status">导入回放后开始。</p>
+      <details id="verified" hidden><summary>核对理解与实际执行</summary><p id="understood"></p><ol id="execution"></ol></details>
+      <details id="assumptions" hidden><summary>查看固定手牌与推演假设</summary><div id="assumption-text"></div></details>
+      <a id="endstep" href="https://endstep.cc/replay/local" target="_blank" rel="noopener noreferrer" hidden>在 Endstep 打开 ↗</a>
+    </footer>
+  </main>
+</body>
+</html>

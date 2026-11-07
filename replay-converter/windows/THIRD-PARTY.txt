@@ -1,0 +1,19 @@
+Bundled components
+
+Node.js 24.22.1
+Source: https://github.com/nodejs/node/tree/v24.22.1
+License and notices: Node.js-LICENSE.txt
+
+Eclipse Temurin 17.0.20.1+1
+Distribution and corresponding OpenJDK source archive:
+https://github.com/adoptium/temurin17-binaries/releases/tag/jdk-17.0.20.1%2B1
+Runtime image assembled from the Windows x64 JDK with jlink.
+License and notices: jdk/jdk-17.0.20.1+1/legal/
+
+Forge 2.0.15
+Source: https://github.com/Card-Forge/forge/archive/refs/tags/forge-2.0.15.tar.gz
+License: forge/LICENSE.txt
+
+Legacy deck catalog
+Upstream: https://github.com/modometa/modometa-mtgo-data
+License: LICENSE-MODOMETA.md
