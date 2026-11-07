@@ -2,9 +2,11 @@
 
 一个 Windows 上的万智牌局面重演工具。导入 Endstep 回放，或用文字描述局面，再尝试另一种打法。模型把想法整理成动作，Forge 校验费用、目标和结算，输出可在 Endstep 播放的 .esreplay。
 
+[**下载 Windows 安装包（v1.2.5）**](https://github.com/zixuanyu038-lang/Kouhai-MTG/releases/download/v1.2.5/Kouhai-MTG-Setup-x64.exe)
+
 ## 下载与使用
 
-下载 Kouhai-MTG-Setup-x64.exe。支持带 Microsoft Edge 的 Windows 10/11 x64。安装包包含 Node.js、Java、Forge 和本地牌表库，可离线安装。 [GitHub Releases](https://github.com/zixuanyu038-lang/Kouhai-MTG/releases)
+下载后双击运行 Kouhai-MTG-Setup-x64.exe。支持带 Microsoft Edge 的 Windows 10/11 x64。安装包包含 Node.js、Java、Forge 和本地牌表库，可离线安装。 [版本说明](https://github.com/zixuanyu038-lang/Kouhai-MTG/releases/tag/v1.2.5)
 
 1. 选择导入回放或从描述创建局面。
 2. 上传双方牌表、使用本地库，或在 Codex 模式中主动选择联网检索。
