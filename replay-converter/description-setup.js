@@ -148,7 +148,7 @@ async function prepareDescription({description,preferences,ask,forge,deckService
   const requiredNames=[...known.map(c=>c.name),...castNames.flat(),...referenced.filter(Boolean).flatMap(deck=>deck.main.concat(deck.sideboard).map(c=>nameOf(c.name)))];
   const {cards}=await forge.request({command:'catalog',names:[...new Set(requiredNames.concat(suggestions.flat(),Object.values(colors)))]},{signal});
   const metadata=new Map(cards.map(c=>[c.name,c]));
-  for(const name of requiredNames)if(!metadata.get(name)?.found)throw Error('Forge 无法识别牌名：'+name+'。请填写完整英文牌名。');
+  for(const name of requiredNames)if(!metadata.get(name)?.found)throw Error('Forge 无法识别牌名：'+name+'。请核对完整英文牌名。若是新牌，可在「Forge 引擎」检查正式版。');
   const exactName=name=>metadata.get(name)?.canonicalName||name;
   for(const c of cards)if(c.found)metadata.set(exactName(c.name),c);
   for(const c of known)c.name=exactName(c.name);

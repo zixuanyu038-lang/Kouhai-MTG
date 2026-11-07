@@ -2,11 +2,11 @@
 
 一个 Windows 上的万智牌局面重演工具。导入 Endstep 回放，或用文字描述局面，再尝试另一种打法。模型把想法整理成动作，Forge 校验费用、目标和结算，输出可在 Endstep 播放的 .esreplay。
 
-[**下载 Windows 安装包（v1.2.5）**](https://github.com/zixuanyu038-lang/Kouhai-MTG/releases/download/v1.2.5/Kouhai-MTG-Setup-x64.exe)
+[**下载 Windows 安装包**](https://github.com/zixuanyu038-lang/Kouhai-MTG/releases/latest/download/Kouhai-MTG-Setup-x64.exe)
 
 ## 下载与使用
 
-下载后双击运行 Kouhai-MTG-Setup-x64.exe。支持带 Microsoft Edge 的 Windows 10/11 x64。安装包包含 Node.js、Java、Forge 和本地牌表库，可离线安装。 [版本说明](https://github.com/zixuanyu038-lang/Kouhai-MTG/releases/tag/v1.2.5)
+下载后双击运行 Kouhai-MTG-Setup-x64.exe。支持带 Microsoft Edge 的 Windows 10/11 x64。安装包包含 Node.js、Java、Forge 和本地牌表库，可离线安装。 [版本说明](https://github.com/zixuanyu038-lang/Kouhai-MTG/releases/latest)
 
 1. 选择导入回放或从描述创建局面。
 2. 上传双方牌表、使用本地库，或在 Codex 模式中主动选择联网检索。
@@ -14,6 +14,8 @@
 4. 检查 Forge 的结果，导出回放。在描述模式下也可以逐回合编辑战报，并从已校验的节点开分支。
 
 [完整使用教程](使用教程.md) · [功能与构建文档](replay-converter/README.md) · [Endstep 本地回放](https://endstep.cc/replay/local)
+
+打开软件后，「Forge 引擎」会在后台检查正式版。可从 Windows 托盘打开更新工具，手动导入官方归档。 [Forge 更新与回退步骤](replay-converter/README.md#forge-更新)
 
 ## 源码与构建
 

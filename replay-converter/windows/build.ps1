@@ -54,13 +54,18 @@ try {
     'package.json', 'replay.js', 'scenario.js', 'search-source.js', 'search-branch.js', 'search-review.js',
     'search-protocol.js', 'search-schema.js', 'studio-protocol.js', 'studio-schema.js', 'match-decks.js',
     'hidden-worlds.js', 'forge-client.js', 'forge-replay.js', 'tree-search.js', 'winning-lines.js',
-    'deck-service.js', 'deck-catalog.js', 'codex-client.js'
+    'deck-service.js', 'deck-catalog.js', 'codex-client.js', 'forge-release.js', 'forge-version-ui.js', 'forge-runtime.js'
   )
   foreach ($file in $sharedFiles) { Copy-Item -LiteralPath (Join-Path $root "endstep-reader\$file") -Destination $shared }
-  Copy-Item -LiteralPath (Join-Path $root 'endstep-reader\forge\EngineWorker.java') -Destination "$shared\forge"
+  foreach ($file in @('EngineWorker.java','self-test.cjs','update-runtime.cjs')) {
+    Copy-Item -LiteralPath (Join-Path $root "endstep-reader\forge\$file") -Destination "$shared\forge"
+  }
   Copy-Item -LiteralPath (Join-Path $root 'endstep-reader\data\deck-catalog.json') -Destination "$shared\data"
   foreach ($file in @('app.js','index.html','style.css','server.js','model-api.js','description-setup.js','timeline.js','mark.svg','table.svg')) { Copy-Item -LiteralPath (Join-Path $converter $file) -Destination $dist }
   Copy-Item -LiteralPath $icon -Destination "$dist\windows"
+  $updateScript = Join-Path $dist 'windows\Update-Forge.cmd'
+  $updateContents = [IO.File]::ReadAllText((Join-Path $PSScriptRoot 'Update-Forge.cmd'))
+  [IO.File]::WriteAllText($updateScript, ($updateContents -replace '\r?\n',"`r`n"))
   $installScript = Join-Path $dist 'windows\install.ps1'
   Get-Content -LiteralPath (Join-Path $PSScriptRoot 'install.ps1') -Raw -Encoding UTF8 | Set-Content -LiteralPath $installScript -Encoding UTF8
   # PowerShell 5 requires a BOM to display UTF-8 source correctly.

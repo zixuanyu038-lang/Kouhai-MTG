@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
   <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>口嗨万智牌</title><link rel="icon" type="image/svg+xml" href="/mark.svg"><link rel="stylesheet" href="/style.css"><script src="/app.js" defer></script>
+  <title>口嗨万智牌</title><link rel="icon" type="image/svg+xml" href="/mark.svg"><link rel="stylesheet" href="/style.css"><script src="/app.js" defer></script><script src="/forge-version-ui.js" defer></script>
 </head>
 <body>
   <main>
@@ -18,6 +18,15 @@
           <p class="note">请使用擅长按 JSON 输出的模型。接口能连通时，也请核对模型理解的动作、目标和时机。</p>
         </div>
         <button type="button" class="quiet" id="connect">检查连接</button><p id="connection-status" class="note" role="status"></p>
+      </div>
+    </details>
+    <details id="forge-version" class="connection" hidden>
+      <summary id="forge-version-label">Forge 引擎</summary>
+      <div class="connection-body">
+        <p id="forge-version-message" class="note" role="status"></p>
+        <a id="forge-version-link" href="https://github.com/Card-Forge/forge/releases/latest" target="_blank" rel="noopener noreferrer">查看 Forge 正式版</a>
+        <button id="forge-version-check" class="quiet" type="button">重新检查</button>
+        <p class="note">从 Windows 托盘菜单打开「Forge 更新工具文件夹」，把官方 <code>forge-installer-版本.tar.bz2</code> 拖到 <code>Update-Forge.cmd</code>。通过校验后，从托盘退出并重新打开应用即可切换。</p>
       </div>
     </details>
     <section>

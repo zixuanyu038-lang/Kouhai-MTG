@@ -10,6 +10,17 @@
 
 Forge 推演、牌表本地检索和回放文件生成在本机完成。自然语言整理需要模型。可以连接已登录的 Codex、远程兼容 API，或在「OpenAI 兼容 API」中填入本机模型服务的回环地址（如 `http://127.0.0.1:1234/v1`）和模型 ID。牌表联网检索由用户主动选择。密钥只在本次窗口使用。 [OpenAI Chat Completions 文档](https://developers.openai.com/api/reference/resources/chat/subresources/completions/methods/create)
 
+## Forge 更新
+
+打开应用时，「Forge 引擎」在后台对比当前引擎和 Forge 正式版。查询约 2.5 秒超时，仍可继续使用本地引擎。展开该栏可查看版本或重新检查。
+
+1. 从官方发布页下载 `forge-installer-版本.tar.bz2`。 [Forge 正式版](https://github.com/Card-Forge/forge/releases/latest)
+2. 右键 Windows 托盘里的口嗨万智牌图标，选「打开 Forge 更新工具文件夹」。把下载的文件拖到 `Update-Forge.cmd`。
+3. 工具核对官方 SHA-256，再用内置 Java 校验费用、目标、结算和堆叠恢复。看到校验通过后，等正在运行的任务完成，从托盘退出应用，再重新打开。
+4. 要切回安装包自带的 Forge，在工具目录运行 `.\Update-Forge.cmd rollback`，然后退出并重新打开应用。
+
+更新保存在口嗨万智牌的用户数据目录。切换引擎后，草稿文字可以继续编辑，已整理的起始局面需要重新核对。
+
 ## 使用
 
 1. 选择「从描述创建」或「导入回放」。描述局面时，写下阶段和优先权、双方生命、战场、手牌、坟场、放逐区，以及会影响操作的库顶、堆叠、法术力和本回合历史。

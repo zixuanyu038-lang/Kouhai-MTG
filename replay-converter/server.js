@@ -3,6 +3,8 @@ const http=require('node:http'),fs=require('node:fs/promises'),path=require('nod
 const Replay=require('../endstep-reader/replay'),Source=require('../endstep-reader/search-source');
 const {CodexClient}=require('../endstep-reader/codex-client');
 const {ForgeClient}=require('../endstep-reader/forge-client');
+const {checkForgeRelease}=require('../endstep-reader/forge-release');
+const {forgeCacheDir}=require('../endstep-reader/forge-runtime');
 const {DeckService,readDeckPreferences,DeckLookupError}=require('../endstep-reader/deck-service');
 const {ensureMatchDecks}=require('../endstep-reader/search-review');
 const {runForgeBranch}=require('../endstep-reader/search-branch');
@@ -25,10 +27,13 @@ async function createConverter({port=0,dataDir=path.join(process.env.LOCALAPPDAT
   await fs.mkdir(dataDir,{recursive:true});
   const codex=modelClient||new CodexClient({binary:await codexBinary(),cwd:dataDir});
   const forge=forgeClient||new ForgeClient({dataDir}),deckService=new DeckService({directory:path.join(dataDir,'decks')});
-  const profileDir=path.join(dataDir,'profiles'),session=crypto.randomBytes(32).toString('hex');
+  const engineCache=forgeCacheDir(forge,dataDir);
+  await fs.mkdir(engineCache,{recursive:true});
+  const profileDir=path.join(engineCache,'profiles'),session=crypto.randomBytes(32).toString('hex');
   const staticFiles={'/':['index.html','text/html; charset=utf-8'],'/app.js':['app.js','text/javascript; charset=utf-8'],'/style.css':['style.css','text/css; charset=utf-8'],
+    '/forge-version-ui.js':['../endstep-reader/forge-version-ui.js','text/javascript; charset=utf-8'],
     '/mark.svg':['mark.svg','image/svg+xml'],'/table.svg':['table.svg','image/svg+xml']};
-  const draftFile=path.join(dataDir,'timeline-draft.json'),sceneFile=path.join(dataDir,'timeline-start.json');
+  const draftFile=path.join(dataDir,'timeline-draft.json'),sceneFile=path.join(engineCache,'timeline-start.json');
   const readSaved=async file=>{
     const saved=JSON.parse(await fs.readFile(file,'utf8'));
     return saved.version===1?saved.data:null;
@@ -128,6 +133,7 @@ async function createConverter({port=0,dataDir=path.join(process.env.LOCALAPPDAT
         res.writeHead(200,{'Content-Type':type});return res.end(await fs.readFile(path.join(__dirname,file)));
       }
       if(!req.headers.cookie?.split(';').some(cookie=>cookie.trim()==='endstep_converter='+session))return json(res,{error:'请重新打开应用窗口。'},403);
+      if(req.method==='GET'&&route==='/api/forge/version')return json(res,await checkForgeRelease(forge));
       if(req.method!=='GET'&&(req.headers['x-endstep-request']!=='1'||req.headers.origin&&req.headers.origin!==origin))return json(res,{error:'无效的本机请求。'},403);
       if(route==='/api/timeline-draft'){
         if(req.method==='GET'){

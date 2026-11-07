@@ -12,7 +12,7 @@ using System.Windows.Forms;
 using Microsoft.Win32;
 
 [assembly: AssemblyProduct(Program.Name)]
-[assembly: AssemblyVersion("1.2.5.0")]
+[assembly: AssemblyVersion("1.2.6.0")]
 
 static class Program
 {
@@ -324,6 +324,14 @@ static class Program
                 catch (Exception error) { MessageBox.Show(error.Message, Name, MessageBoxButtons.OK, MessageBoxIcon.Error); }
             };
             menu.Items.Add("打开" + Name, null, show);
+            menu.Items.Add("打开 Forge 更新工具文件夹", null, (sender, e) => {
+                try
+                {
+                    var folder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"replay-converter\windows");
+                    using (Process.Start(new ProcessStartInfo(folder) { UseShellExecute = true })) { }
+                }
+                catch (Exception error) { MessageBox.Show(error.Message, Name, MessageBoxButtons.OK, MessageBoxIcon.Error); }
+            });
             menu.Items.Add("退出" + Name, null, (sender, e) => session.ExitThread());
             tray.DoubleClick += show;
             timer.Tick += (sender, e) => {

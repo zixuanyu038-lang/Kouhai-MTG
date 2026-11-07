@@ -73,7 +73,8 @@ try {
   foreach ($file in @(
     'node.exe', 'runtime\jdk\jdk-17.0.20.1+1\bin\java.exe',
     'runtime\jdk\jdk-17.0.20.1+1\bin\javac.exe',
-    'runtime\forge\forge-gui-desktop-2.0.15-jar-with-dependencies.jar'
+    'runtime\forge\forge-gui-desktop-2.0.15-jar-with-dependencies.jar',
+    'replay-converter\windows\Update-Forge.cmd', 'endstep-reader\forge\update-runtime.cjs'
   )) {
     if (-not (Test-Path -LiteralPath (Join-Path $stage $file) -PathType Leaf)) { throw "安装包缺少文件 $file，请重新获取完整安装包。" }
   }
@@ -104,7 +105,7 @@ try {
     New-Item -Path $uninstallKey -Force | Out-Null
     $uninstaller = Join-Path $Target 'replay-converter\windows\install.ps1'
     $command = ('"{0}\System32\WindowsPowerShell\v1.0\powershell.exe" -NoProfile -ExecutionPolicy Bypass -WindowStyle Hidden -File "{1}" -Uninstall -Target "{2}"' -f $env:WINDIR, $uninstaller, $Target)
-    @{DisplayName=$name;DisplayVersion='1.2.5';InstallLocation=$Target;DisplayIcon=$launcher;UninstallString=$command;NoModify=1;NoRepair=1}.GetEnumerator() | ForEach-Object {
+    @{DisplayName=$name;DisplayVersion='1.2.6';InstallLocation=$Target;DisplayIcon=$launcher;UninstallString=$command;NoModify=1;NoRepair=1}.GetEnumerator() | ForEach-Object {
       Set-ItemProperty -Path $uninstallKey -Name $_.Key -Value $_.Value
     }
     Remove-AppShortcut $previousShortcut @($launcher,$registeredLauncher)
